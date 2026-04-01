@@ -1,0 +1,40 @@
+
+/**********************
+   NAVBAR    
+***********************/
+.paw-navbar {
+    background: #278f86;
+
+    .navbar-brand {
+        font-weight: bold;
+        font-size: 1.6rem;
+        color:#fff;
+    }
+
+    .nav-link {
+        font-weight: 500;
+        color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .dropdown-menu {
+        background-color: #fff;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-item {color:  #000;}
+
+    .dropdown-item:hover {
+        background-color: #add7d4;
+    }
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
