@@ -62,13 +62,15 @@ $pet = $result->fetch_assoc();
       <hr>
 
       <p>
-        <?php if ($pet['good_with_kids']) echo "✔ Good with kids<br>"; ?>
-        <?php if ($pet['good_with_pets']) echo "✔ Good with pets<br>"; ?>
-        <?php if ($pet['vaccinated']) echo "✔ Vaccinated<br>"; ?>
-        <?php if ($pet['neutered']) echo "✔ Neutered<br>"; ?>
+        <?php if ($pet['good_with_kids']) echo "✓ Good with kids<br>"; ?>
+        <?php if ($pet['good_with_pets']) echo "✓ Good with pets<br>"; ?>
+        <?php if ($pet['vaccinated']) echo "✓ Vaccinated<br>"; ?>
+        <?php if ($pet['neutered']) echo "✓ Neutered<br>"; ?>
       </p>
 
-
+        <a href="edit_pet.php?id=<?php echo $pet['id']; ?>" class="btn btn_edit mt-3">
+        Edit 
+        </a>
     </div>
 
   </div>

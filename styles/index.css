@@ -35,6 +35,20 @@
 .navbar-toggler:focus {box-shadow: none;}
 
 /**********************
+   ADD NEW PET PAGE  
+***********************/
+.btn-submit {
+    background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.btn-submit:hover {background-color: #ffffff;}
+
+/**********************
    VIEW ANIMALS PAGE   
 ***********************/
 .card img {border-bottom: 1px solid #eee;}
@@ -62,34 +76,11 @@
 
 .btn-filter:hover, .btn-filter-toggle:hover {background-color: #ffffff;}
 
-/**********************
-   ADD NEW PAGE  
-***********************/
-.btn-submit {
-    background-color: #278f86;
-    border: none;
-    color: white;
-    font-weight: 500;
-    border-radius: 10px;
-    transition: 0.2s;
-}
-
-.btn-submit:hover {background-color: #ffffff;}
-
-
-
-
-
-
-
-
-/* Remove link styling */
 .card-link {
   text-decoration: none;
   color: inherit;
 }
 
-/* Clickable card effect */
 .pet-card {
   transition: 0.2s;
   cursor: pointer;
@@ -99,3 +90,32 @@
   transform: scale(1.03);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
+
+/**********************
+PET PAGE INDIVIDUAL
+***********************/
+.btn_edit {
+    background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.btn_edit:hover {background-color: #ffffff;}
+
+/**********************
+EDIT PET PAGE
+***********************/
+.btn-update {
+    background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.btn-update:hover {background-color: #ffffff;}
+
