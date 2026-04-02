@@ -76,6 +76,7 @@ $pet = $result->fetch_assoc();
   </div>
 
 </div>
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

@@ -119,3 +119,44 @@ EDIT PET PAGE
 
 .btn-update:hover {background-color: #ffffff;}
 
+.btn-delete {
+    background-color: #ff0000;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {background-color: #ffffff;}
+
+
+
+
+
+
+/**********************
+FOOTER
+***********************/
+
+.footer {
+  background-color: #0a3835;
+  color: #ffffff;
+}
+
+.footer h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+
+

@@ -21,6 +21,26 @@ $pet = $result->fetch_assoc();
 
 $message = "";
 
+// HANDLE DELETE
+if (isset($_POST['delete'])) {
+
+    // Optional: delete image file too
+    $imagePath = "uploads/" . $pet['image'];
+    if (file_exists($imagePath)) {
+        unlink($imagePath);
+    }
+
+    $stmt = $conn->prepare("DELETE FROM pets WHERE id = ?");
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        header("Location: view_all.php");
+        exit();
+    } else {
+        $message = "<div class='alert alert-danger'>Error deleting</div>";
+    }
+}
+
 // HANDLE UPDATE
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -175,11 +195,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   </div>
 
-  <button class="btn btn-update mt-3">Update</button>
+
+
+  <div class="mt-3 d-flex gap-2">
+
+  <button class="btn btn-update">Update</button>
+
+  <button type="submit" name="delete" class="btn btn-delete"
+    onclick="return confirm('Are you sure you want to delete <?php echo $pet['name']; ?>?');">
+    Delete 
+  </button>
+
+</div>
 
 </form>
 
 </div>
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

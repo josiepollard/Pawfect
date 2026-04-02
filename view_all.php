@@ -258,6 +258,7 @@ $result = $stmt->get_result();
 
   </div>
 </div>
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>
