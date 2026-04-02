@@ -2,7 +2,7 @@
   <div class="container-fluid px-3 px-lg-4">
 
     <!-- Logo, clicking logo goes to homepage -->
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
       <span ><i class="fa fa-paw" style="font-size:24px"></i> Pawfect Match </span>
     </a>
 
@@ -25,15 +25,15 @@
 
             <!-- dropdown child links -->
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">All Animals</a></li>
-                <li><a class="dropdown-item" href="#">Dogs</a></li>
-                <li><a class="dropdown-item" href="#">Cats</a></li>
+                <li><a class="dropdown-item" href="view_all.php">All Animals</a></li>
+                <li><a class="dropdown-item" href="add_pet.php">Add New</a></li>
+                
             </ul>
             </li>
 
             <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
 
-            <li class="nav-item"><a class="nav-link" href="add_pet.php">Add New</a></li>
+            
         </ul>
       </div>
     </div>

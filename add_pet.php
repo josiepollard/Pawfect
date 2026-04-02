@@ -193,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="file" name="image" class="form-control" accept="image/*" required>
         </div>
 
-        <button type="submit" name="submit" class="btn btn-primary mt-3">
+        <button type="submit" name="submit" class="btn btn-submit">
             Add Pet
         </button>
 
