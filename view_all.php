@@ -1,8 +1,24 @@
 <?php
+session_start();
 $conn = new mysqli("localhost", "root", "", "pawfect");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+$favPets = [];
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    $favQuery = $conn->prepare("SELECT pet_id FROM favourites WHERE user_id=?");
+    $favQuery->bind_param("i", $userId);
+    $favQuery->execute();
+    $favResult = $favQuery->get_result();
+
+    while ($fav = $favResult->fetch_assoc()) {
+        $favPets[] = $fav['pet_id'];
+    }
 }
 
 // Get filters
@@ -89,6 +105,30 @@ if (!empty($params)) {
 
 $stmt->execute();
 $result = $stmt->get_result();
+
+if (isset($_POST['toggle_fav']) && isset($_SESSION['user_id'])) {
+
+    $petId = $_POST['pet_id'];
+    $userId = $_SESSION['user_id'];
+
+    $check = $conn->prepare("SELECT id FROM favourites WHERE user_id=? AND pet_id=?");
+    $check->bind_param("ii", $userId, $petId);
+    $check->execute();
+    $res = $check->get_result();
+
+    if ($res->num_rows > 0) {
+        $del = $conn->prepare("DELETE FROM favourites WHERE user_id=? AND pet_id=?");
+        $del->bind_param("ii", $userId, $petId);
+        $del->execute();
+    } else {
+        $add = $conn->prepare("INSERT INTO favourites (user_id, pet_id) VALUES (?, ?)");
+        $add->bind_param("ii", $userId, $petId);
+        $add->execute();
+    }
+
+    header("Location: view_all.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -211,22 +251,44 @@ $result = $stmt->get_result();
 
     <?php while ($row = $result->fetch_assoc()): ?>
 
-      <div class="col-md-4 mb-4">
-  <a href="pet.php?id=<?php echo $row['id']; ?>" class="card-link">
+     <div class="col-md-4 mb-4">
 
-    <div class="card h-100 shadow-sm pet-card">
+  <div class="card h-100 shadow-sm pet-card position-relative">
 
-      <img src="uploads/<?php echo $row['image']; ?>" class="card-img-top" style="height: 350px; object-fit: cover;">
+    <!-- HEART OVERLAY -->
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <form method="POST" class="fav-overlay">
+        <input type="hidden" name="pet_id" value="<?php echo $row['id']; ?>">
+
+        <button type="submit" name="toggle_fav" class="btn btn-heart"
+          onclick="event.stopPropagation();">
+
+          <?php if (in_array($row['id'], $favPets)): ?>
+            <i class="fa fa-heart text-danger"></i>
+          <?php else: ?>
+            <i class="fa fa-heart-o text-dark"></i>
+          <?php endif; ?>
+
+        </button>
+      </form>
+    <?php endif; ?>
+
+    <!-- CLICKABLE CARD -->
+    <a href="pet.php?id=<?php echo $row['id']; ?>" class="card-link text-decoration-none text-dark">
+
+      <img src="uploads/<?php echo $row['image']; ?>" 
+           class="card-img-top" 
+           style="height: 350px; object-fit: cover;">
 
       <div class="card-body">
 
         <h5 class="card-title d-flex align-items-center gap-2">
-  <?php echo htmlspecialchars($row['name']); ?>
+          <?php echo htmlspecialchars($row['name']); ?>
 
-  <?php if (isset($row['status']) && $row['status'] === 'reserved'): ?>
-    <span class="badge bg-warning text-dark">Reserved</span>
-  <?php endif; ?>
-</h5>
+          <?php if ($row['status'] === 'reserved'): ?>
+            <span class="badge bg-warning text-dark">Reserved</span>
+          <?php endif; ?>
+        </h5>
 
         <p class="card-text">
           <strong><?php echo $row['breed']; ?></strong><br>
@@ -234,20 +296,12 @@ $result = $stmt->get_result();
           <?php echo $row['gender']; ?>
         </p>
 
-        <p>
-          Energy: <?php echo $row['energy_level']; ?><br>
-          Size: <?php echo $row['size']; ?>
-        </p>
-
-        <p class="small text-muted">
-          <?php echo substr($row['description'], 0, 80); ?>...
-        </p>
-
       </div>
 
-    </div>
+    </a>
 
-  </a>
+  </div>
+
 </div>
 
     <?php endwhile; ?>

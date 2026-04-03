@@ -77,7 +77,10 @@ $result = $stmt->get_result();
               <img src="uploads/<?php echo $row['image']; ?>" class="card-img-top" style="height:250px; object-fit:cover;">
 
               <div class="card-body">
-                <h5><?php echo $row['name']; ?></h5>
+                <h5><?php echo $row['name']; ?></h5><?php if ($row['status'] === 'reserved'): ?>
+            <span class="badge bg-warning text-dark">Reserved</span>
+          <?php endif; ?>
+                 
               </div>
 
             </div>
