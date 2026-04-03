@@ -220,7 +220,13 @@ $result = $stmt->get_result();
 
       <div class="card-body">
 
-        <h5 class="card-title"><?php echo $row['name']; ?></h5>
+        <h5 class="card-title d-flex align-items-center gap-2">
+  <?php echo htmlspecialchars($row['name']); ?>
+
+  <?php if (isset($row['status']) && $row['status'] === 'reserved'): ?>
+    <span class="badge bg-warning text-dark">Reserved</span>
+  <?php endif; ?>
+</h5>
 
         <p class="card-text">
           <strong><?php echo $row['breed']; ?></strong><br>
