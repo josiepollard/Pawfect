@@ -256,7 +256,7 @@ if (isset($_POST['toggle_fav']) && isset($_SESSION['user_id'])) {
   <div class="card h-100 shadow-sm pet-card position-relative">
 
     <!-- HEART OVERLAY -->
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
       <form method="POST" class="fav-overlay">
         <input type="hidden" name="pet_id" value="<?php echo $row['id']; ?>">
 

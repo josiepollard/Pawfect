@@ -3,6 +3,7 @@
 ***********************/
 .paw-navbar {
     background: #278f86;
+    padding: 20px;
 
     .navbar-brand {
         font-weight: bold;
@@ -192,6 +193,74 @@ SAVED PETS
   transform: scale(1.1);
 }
 
+
+/**********************
+HOME
+***********************/
+.hero {
+  height: 70vh;
+  background: url('/Pawfect/images/banner.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: white;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card {
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+
+.pet-card {
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.pet-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
 
 
 
