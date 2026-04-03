@@ -1,5 +1,8 @@
 <?php
 session_start();
+$role = $_SESSION['role'] ?? null;
+$userName = $_SESSION['name'] ?? '';
+$userEmail = $_SESSION['email'] ?? '';
 
 $conn = new mysqli("localhost", "root", "", "pawfect");
 
@@ -7,11 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$conn = new mysqli("localhost", "root", "", "pawfect");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $id = $_GET['id'] ?? 0;
 
@@ -97,8 +96,6 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
         <?php endif; ?>
       </h2>
 
-      
-
       <p><strong>Breed:</strong> <?php echo $pet['breed']; ?></p>
       <p><strong>Age:</strong> <?php echo $pet['age']; ?> years</p>
       <p><strong>Gender:</strong> <?php echo $pet['gender']; ?></p>
@@ -106,9 +103,7 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
       <p><strong>Energy:</strong> <?php echo $pet['energy_level']; ?></p>
 
       <hr>
-
       <p><?php echo $pet['description']; ?></p>
-
       <hr>
 
       <p>
@@ -119,10 +114,8 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
       </p>
 
       
-
-
         <!-- Admin only -->
-      <?php if ($_SESSION['role'] === 'admin'): ?>
+      <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
 
         <a href="edit_pet.php?id=<?php echo $pet['id']; ?>" class="btn btn_edit mt-3">
         Edit 
@@ -133,7 +126,7 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
           <form method="POST" class="mt-2">
 
           <button type="submit" name="toggle_reserve"
-            class="btn <?php echo ($pet['status'] === 'reserved') ? 'btn-reserve' : 'btn-reserve'; ?>">
+            class="btn btn-reserve">
 
             <?php if ($pet['status'] === 'reserved'): ?>
               Unreserve
@@ -145,44 +138,59 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
 
         </form>
         
-        
-        
-
-
       <?php endif; ?>
 
-       <!-- User only -->
-      <?php if ($_SESSION['role'] === 'user'): ?>
+       <!-- SHOW TO NON-ADMINS ONLY AND NOT RESERVED -->
+<?php if ($role !== 'admin' && $pet['status'] !== 'reserved'): ?>
 
-       
-        <button class="btn btn-adopt mt-3" data-bs-toggle="collapse" data-bs-target="#enquiryForm">
-              Adopt Me 
-        </button><br>
-        <div class="collapse mt-3" id="enquiryForm">
+  <button class="btn btn-adopt mt-3" data-bs-toggle="collapse" data-bs-target="#enquiryForm">
+    Adopt Me 
+  </button><br>
 
-          <div class="card p-3">
+  <div class="collapse mt-3" id="enquiryForm">
 
-            <h5>Send Enquiry</h5>
+    <div class="card p-3">
 
-            <form method="POST">
+      <h5>Send Enquiry</h5>
 
-              <input type="text" name="user_name" class="form-control mb-2" placeholder="Your Name" required>
+      <form method="POST">
 
-              <input type="email" name="email" class="form-control mb-2" placeholder="Your Email" required>
+        <input 
+          type="text" 
+          name="user_name" 
+          class="form-control mb-2" 
+          placeholder="Your Name" 
+          value="<?php echo htmlspecialchars($userName); ?>"
+          required
+        >
 
-              <textarea name="message" class="form-control mb-2" placeholder="Message" required></textarea>
+        <input 
+          type="email" 
+          name="email" 
+          class="form-control mb-2" 
+          placeholder="Your Email" 
+          value="<?php echo htmlspecialchars($userEmail); ?>"
+          required
+        >
 
-              <button type="submit" name="enquire" class="btn btn-sendEnuiry">
-                Send Enquiry
-              </button>
+        <textarea 
+          name="message" 
+          class="form-control mb-2" 
+          placeholder="Message" 
+          required
+        ></textarea>
 
-            </form>
+        <button type="submit" name="enquire" class="btn btn-sendEnuiry">
+          Send Enquiry
+        </button>
 
-          </div>
+      </form>
 
-        </div>
+    </div>
 
-      <?php endif; ?>
+  </div>
+
+<?php endif; ?>
     </div>
 
   </div>
