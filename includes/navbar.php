@@ -46,9 +46,13 @@
 
           <?php if ($_SESSION['role'] === 'user'): ?>
             <li><a class="dropdown-item" href="favourites.php">Saved Pets</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Account Settings</a></li>
           <?php endif; ?>
 
           <li><hr class="dropdown-divider"></li>
+
+          
 
           <li>
             <a class="dropdown-item text-danger" href="logout.php">Logout</a>

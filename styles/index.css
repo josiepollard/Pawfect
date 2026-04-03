@@ -265,8 +265,19 @@ HOME
 
 
 
+/**********************
+Login & register
+***********************/
+.btn-login, .btn-login {
+  background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
 
-
+.btn-login:hover, .btn-login:hover {background-color: #ffffff;}
 
 
 
