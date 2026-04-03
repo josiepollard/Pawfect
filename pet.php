@@ -124,7 +124,7 @@ if (isset($_POST['toggle_fav']) && isset($_SESSION['user_id'])) {
   <img src="uploads/<?php echo $pet['image']; ?>" class="img-fluid rounded w-100">
 
   <!-- HEART BUTTON OVERLAY -->
-  <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
     <form method="POST" class="fav-overlay">
       <button type="submit" name="toggle_fav" class="btn btn-heart">
 
