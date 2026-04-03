@@ -42,7 +42,7 @@ if (isset($_POST['delete'])) {
 }
 
 // HANDLE UPDATE
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['delete'])) {
 
     $name = $_POST['name'];
     $species = $_POST['species'];
@@ -58,24 +58,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kids = isset($_POST['good_with_kids']) ? 1 : 0;
     $pets = isset($_POST['good_with_pets']) ? 1 : 0;
 
+    $newImageName = $pet['image']; // default = keep old image
+
+    // =========================
+    // HANDLE IMAGE REPLACEMENT
+    // =========================
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+        $imageName = $_FILES['image']['name'];
+        $imageTmp = $_FILES['image']['tmp_name'];
+        $imageSize = $_FILES['image']['size'];
+
+        $imageExt = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($imageExt, $allowed) && $imageSize < 2000000) {
+
+            // Generate new filename
+            $newImageName = uniqid("pet_", true) . "." . $imageExt;
+            $uploadPath = "uploads/" . $newImageName;
+
+            if (move_uploaded_file($imageTmp, $uploadPath)) {
+
+                // DELETE OLD IMAGE
+                $oldImagePath = "uploads/" . $pet['image'];
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+
+            }
+        }
+    }
+
     $stmt = $conn->prepare("UPDATE pets SET 
         name=?, species=?, breed=?, age=?, gender=?, size=?, energy_level=?, description=?, 
-        vaccinated=?, neutered=?, good_with_kids=?, good_with_pets=?
+        vaccinated=?, neutered=?, good_with_kids=?, good_with_pets=?, image=?
         WHERE id=?");
 
-    $stmt->bind_param("sssissssiiiii",
+    $stmt->bind_param("sssissssiiissi",
         $name, $species, $breed, $age, $gender, $size,
-        $energy, $description, $vaccinated, $neutered, $kids, $pets, $id
+        $energy, $description, $vaccinated, $neutered, $kids, $pets, $newImageName, $id
     );
 
     if ($stmt->execute()) {
-    header("Location: pet.php?id=" . $id);
-    exit();
-} else {
+        header("Location: pet.php?id=" . $id);
+        exit();
+    } else {
         $message = "<div class='alert alert-danger'>Error updating</div>";
     }
 
-    // refresh data
+    // Refresh data
     $stmt = $conn->prepare("SELECT * FROM pets WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -111,7 +143,7 @@ requireAdmin();
 
   <?php echo $message; ?>
 
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
 
   <!-- Name -->
   <div class="mb-3">
@@ -174,6 +206,12 @@ requireAdmin();
     <label class="form-label">Description</label>
     <textarea name="description" class="form-control"><?php echo $pet['description']; ?></textarea>
   </div>
+
+  <div class="mb-3">
+    <label class="form-label">Replace Image</label>
+    <input type="file" name="image" class="form-control" accept="image/*">
+  </div>
+
 
   <!-- Checkboxes -->
   <div class="mb-3">
