@@ -34,6 +34,30 @@
 
 .navbar-toggler:focus {box-shadow: none;}
 
+
+/**********************
+FOOTER
+***********************/
+
+.footer {
+  background-color: #0a3835;
+  color: #ffffff;
+}
+
+.footer h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 /**********************
    ADD NEW PET PAGE  
 ***********************/
@@ -91,19 +115,7 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/**********************
-PET PAGE INDIVIDUAL
-***********************/
-.btn_edit {
-    background-color: #278f86;
-    border: none;
-    color: white;
-    font-weight: 500;
-    border-radius: 10px;
-    transition: 0.2s;
-}
 
-.btn_edit:hover {background-color: #ffffff;}
 
 /**********************
 EDIT PET PAGE
@@ -131,32 +143,22 @@ EDIT PET PAGE
 .btn-delete:hover {background-color: #ffffff;}
 
 
-
-
-
-
 /**********************
-FOOTER
+PET PAGE INDIVIDUAL
 ***********************/
-
-.footer {
-  background-color: #0a3835;
-  color: #ffffff;
+.btn_edit, .btn-adopt, .btn-sendEnuiry {
+    background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
 }
 
-.footer h5 {
-  font-weight: 600;
-  margin-bottom: 10px;
-}
+.btn_edit:hover, .btn-adopt:hover, .btn-sendEnuiry:hover {background-color: #ffffff;}
 
-.footer a {
-  color: #fff;
-  text-decoration: none;
-}
 
-.footer a:hover {
-  text-decoration: underline;
-}
+
 
 
 

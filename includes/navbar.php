@@ -16,22 +16,10 @@
         <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 gap-lg-2 ">
 
             <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-
-            <!-- Recipes dropdown -->
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="recipesDropdown" role="button" data-bs-toggle="dropdown">
-                Our Animals
-            </a>
-
-            <!-- dropdown child links -->
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="view_all.php">All Animals</a></li>
-                <li><a class="dropdown-item" href="add_pet.php">Add New</a></li>
-                
-            </ul>
-            </li>
-
+            <li class="nav-item"><a class="nav-link" href="view_all.php">Our Animals</a></li>
+           
             <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+             <li class="nav-item"><a class="nav-link" href="add_pet.php">Add New (admin)</a></li>
 
             
         </ul>

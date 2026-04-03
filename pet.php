@@ -18,6 +18,23 @@ if ($result->num_rows === 0) {
 }
 
 $pet = $result->fetch_assoc();
+
+// HANDLE ENQUIRY
+if (isset($_POST['enquire'])) {
+
+    $user_name = $_POST['user_name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    $stmt = $conn->prepare("INSERT INTO enquiries (pet_id, name, email, message) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("isss", $id, $user_name, $email, $message);
+
+    if ($stmt->execute()) {
+        $success = "Enquiry sent successfully 🐾";
+    } else {
+        $success = "Error sending enquiry";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +64,12 @@ $pet = $result->fetch_assoc();
 
     <div class="col-md-6">
 
+
+    <?php if(isset($success)) echo "<div class='alert alert-success mt-3'>$success</div>"; ?>
+
       <h2><?php echo $pet['name']; ?></h2>
+
+      
 
       <p><strong>Breed:</strong> <?php echo $pet['breed']; ?></p>
       <p><strong>Age:</strong> <?php echo $pet['age']; ?> years</p>
@@ -68,8 +90,36 @@ $pet = $result->fetch_assoc();
         <?php if ($pet['neutered']) echo "✓ Neutered<br>"; ?>
       </p>
 
+      <button class="btn btn-adopt mt-3" data-bs-toggle="collapse" data-bs-target="#enquiryForm">
+              Adopt Me (user)
+        </button><br>
+        <div class="collapse mt-3" id="enquiryForm">
+
+          <div class="card p-3">
+
+            <h5>Send Enquiry</h5>
+
+            <form method="POST">
+
+              <input type="text" name="user_name" class="form-control mb-2" placeholder="Your Name" required>
+
+              <input type="email" name="email" class="form-control mb-2" placeholder="Your Email" required>
+
+              <textarea name="message" class="form-control mb-2" placeholder="Message" required></textarea>
+
+              <button type="submit" name="enquire" class="btn btn-sendEnuiry">
+                Send Enquiry
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+
         <a href="edit_pet.php?id=<?php echo $pet['id']; ?>" class="btn btn_edit mt-3">
-        Edit 
+        Edit (admin)
         </a>
     </div>
 
