@@ -52,7 +52,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php if ($_SESSION['role'] === 'user'): ?>
 
        
-        <li><a class="dropdown-item" href="#">Saved Pets</a></li>
+        <li><a class="dropdown-item" href="favourites.php">Saved Pets</a></li>
 
       <?php endif; ?>
 

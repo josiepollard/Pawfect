@@ -25,6 +25,18 @@ if ($result->num_rows === 0) {
 }
 
 $pet = $result->fetch_assoc();
+$isFav = false;
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    $stmt = $conn->prepare("SELECT id FROM favourites WHERE user_id=? AND pet_id=?");
+    $stmt->bind_param("ii", $userId, $id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    $isFav = $res->num_rows > 0;
+}
 
 // HANDLE ENQUIRY
 if (isset($_POST['enquire'])) {
@@ -56,6 +68,34 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
         exit();
     }
 }
+
+
+// HANDLE FAVOURITE TOGGLE
+if (isset($_POST['toggle_fav']) && isset($_SESSION['user_id'])) {
+
+    $userId = $_SESSION['user_id'];
+
+    // Check if already saved
+    $check = $conn->prepare("SELECT id FROM favourites WHERE user_id=? AND pet_id=?");
+    $check->bind_param("ii", $userId, $id);
+    $check->execute();
+    $res = $check->get_result();
+
+    if ($res->num_rows > 0) {
+        // Remove favourite
+        $del = $conn->prepare("DELETE FROM favourites WHERE user_id=? AND pet_id=?");
+        $del->bind_param("ii", $userId, $id);
+        $del->execute();
+    } else {
+        // Add favourite
+        $add = $conn->prepare("INSERT INTO favourites (user_id, pet_id) VALUES (?, ?)");
+        $add->bind_param("ii", $userId, $id);
+        $add->execute();
+    }
+
+    header("Location: pet.php?id=" . $id);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,14 +119,33 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
 
   <div class="row">
 
-    <div class="col-md-6">
-      <img src="uploads/<?php echo $pet['image']; ?>" class="img-fluid rounded">
-    </div>
+    <div class="col-md-6 position-relative">
+
+  <img src="uploads/<?php echo $pet['image']; ?>" class="img-fluid rounded w-100">
+
+  <!-- HEART BUTTON OVERLAY -->
+  <?php if (isset($_SESSION['user_id'])): ?>
+    <form method="POST" class="fav-overlay">
+      <button type="submit" name="toggle_fav" class="btn btn-heart">
+
+        <?php if ($isFav): ?>
+          <i class="fa fa-heart text-danger"></i>
+        <?php else: ?>
+          <i class="fa fa-heart-o text-dark"></i>
+        <?php endif; ?>
+
+      </button>
+    </form>
+  <?php endif; ?>
+
+</div>
 
     <div class="col-md-6">
 
 
     <?php if(isset($success)) echo "<div class='alert alert-success mt-3'>$success</div>"; ?>
+
+ 
 
       <h2>
         <?php echo htmlspecialchars($pet['name']); ?>
@@ -95,6 +154,8 @@ if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['ro
           <span class="badge bg-warning text-dark ms-2">Reserved</span>
         <?php endif; ?>
       </h2>
+
+      
 
       <p><strong>Breed:</strong> <?php echo $pet['breed']; ?></p>
       <p><strong>Age:</strong> <?php echo $pet['age']; ?> years</p>
