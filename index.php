@@ -56,7 +56,7 @@ $featured = $conn->query("SELECT * FROM pets ORDER BY RAND() LIMIT 3");
 
             <img src="uploads/<?php echo $pet['image']; ?>" 
                  class="card-img-top" 
-                 style="height: 250px; object-fit: cover;">
+                 style="height: 350px; object-fit: cover;">
 
             <div class="card-body">
 

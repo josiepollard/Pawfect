@@ -74,7 +74,7 @@ $result = $stmt->get_result();
 
                 <a href="pet.php?id=<?php echo $row['id']; ?>" class="card-link">
 
-              <img src="uploads/<?php echo $row['image']; ?>" class="card-img-top" style="height:250px; object-fit:cover;">
+              <img src="uploads/<?php echo $row['image']; ?>" class="card-img-top" style="height:350px; object-fit:cover;">
 
               <div class="card-body">
                 <h5><?php echo $row['name']; ?></h5><?php if ($row['status'] === 'reserved'): ?>

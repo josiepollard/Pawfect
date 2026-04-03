@@ -251,7 +251,6 @@ HOME
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-
 .pet-card {
   border-radius: 15px;
   transition: 0.3s;
@@ -261,8 +260,6 @@ HOME
   transform: translateY(-6px);
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
-
-
 
 
 /**********************
@@ -279,7 +276,25 @@ Login & register
 
 .btn-login:hover, .btn-login:hover {background-color: #ffffff;}
 
+/**********************
+user settings
+***********************/
+.btn-updateName, .btn-updatePassword {
+  background-color: #278f86;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
 
+}
+.btn-updateName:hover, .btn-updatePassword:hover, .btn-deleteAcc:hover {background-color: #ffffff;}
 
-
-
+.btn-deleteAcc {
+   background-color: #e10f0f;
+    border: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: 0.2s;
+}
