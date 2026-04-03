@@ -83,6 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<?php
+require_once 'includes/auth.php';
+requireLogin();
+requireAdmin();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

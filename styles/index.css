@@ -146,7 +146,7 @@ EDIT PET PAGE
 /**********************
 PET PAGE INDIVIDUAL
 ***********************/
-.btn_edit, .btn-adopt, .btn-sendEnuiry {
+.btn_edit, .btn-adopt, .btn-sendEnuiry, .btn-reserve {
     background-color: #278f86;
     border: none;
     color: white;
@@ -155,7 +155,7 @@ PET PAGE INDIVIDUAL
     transition: 0.2s;
 }
 
-.btn_edit:hover, .btn-adopt:hover, .btn-sendEnuiry:hover {background-color: #ffffff;}
+.btn_edit:hover, .btn-adopt:hover, .btn-sendEnuiry:hover, .btn-reserve:hover {background-color: #ffffff;}
 
 
 

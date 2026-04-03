@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+$conn = new mysqli("localhost", "root", "", "pawfect");
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 $conn = new mysqli("localhost", "root", "", "pawfect");
 
 if ($conn->connect_error) {
@@ -35,6 +43,20 @@ if (isset($_POST['enquire'])) {
         $success = "Error sending enquiry";
     }
 }
+// TOGGLE RESERVE (ADMIN ONLY)
+if (isset($_POST['toggle_reserve']) && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+
+    // Flip status
+    $newStatus = ($pet['status'] === 'reserved') ? 'available' : 'reserved';
+
+    $stmt = $conn->prepare("UPDATE pets SET status = ? WHERE id = ?");
+    $stmt->bind_param("si", $newStatus, $id);
+
+    if ($stmt->execute()) {
+        header("Location: pet.php?id=" . $id);
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +89,13 @@ if (isset($_POST['enquire'])) {
 
     <?php if(isset($success)) echo "<div class='alert alert-success mt-3'>$success</div>"; ?>
 
-      <h2><?php echo $pet['name']; ?></h2>
+      <h2>
+        <?php echo htmlspecialchars($pet['name']); ?>
+
+        <?php if ($pet['status'] === 'reserved'): ?>
+          <span class="badge bg-warning text-dark ms-2">Reserved</span>
+        <?php endif; ?>
+      </h2>
 
       
 
@@ -90,8 +118,45 @@ if (isset($_POST['enquire'])) {
         <?php if ($pet['neutered']) echo "✓ Neutered<br>"; ?>
       </p>
 
-      <button class="btn btn-adopt mt-3" data-bs-toggle="collapse" data-bs-target="#enquiryForm">
-              Adopt Me (user)
+      
+
+
+        <!-- Admin only -->
+      <?php if ($_SESSION['role'] === 'admin'): ?>
+
+        <a href="edit_pet.php?id=<?php echo $pet['id']; ?>" class="btn btn_edit mt-3">
+        Edit 
+        </a>
+
+
+        
+          <form method="POST" class="mt-2">
+
+          <button type="submit" name="toggle_reserve"
+            class="btn <?php echo ($pet['status'] === 'reserved') ? 'btn-reserve' : 'btn-reserve'; ?>">
+
+            <?php if ($pet['status'] === 'reserved'): ?>
+              Unreserve
+            <?php else: ?>
+              Mark as Reserved
+            <?php endif; ?>
+
+          </button>
+
+        </form>
+        
+        
+        
+
+
+      <?php endif; ?>
+
+       <!-- User only -->
+      <?php if ($_SESSION['role'] === 'user'): ?>
+
+       
+        <button class="btn btn-adopt mt-3" data-bs-toggle="collapse" data-bs-target="#enquiryForm">
+              Adopt Me 
         </button><br>
         <div class="collapse mt-3" id="enquiryForm">
 
@@ -117,10 +182,7 @@ if (isset($_POST['enquire'])) {
 
         </div>
 
-
-        <a href="edit_pet.php?id=<?php echo $pet['id']; ?>" class="btn btn_edit mt-3">
-        Edit (admin)
-        </a>
+      <?php endif; ?>
     </div>
 
   </div>
