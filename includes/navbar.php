@@ -11,76 +11,62 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="toggleNav" >
+    <div class="collapse navbar-collapse" id="toggleNav">
 
-        <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 gap-lg-2 ">
+  <!-- CENTER NAV LINKS -->
+ <ul class="navbar-nav w-100 justify-content-center mb-2 mb-lg-0 gap-lg-2">
+    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="view_all.php">Our Animals</a></li>
+    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+  </ul>
 
-            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="view_all.php">Our Animals</a></li>
-           
-            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-             
+  <!-- RIGHT SIDE (LOGIN / USER) -->
+  <ul class="navbar-nav ms-auto">
 
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
+    <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    ?>
 
-<ul class="navbar-nav ms-auto">
+    <?php if (isset($_SESSION['user_id'])): ?>
 
-<?php if (isset($_SESSION['user_id'])): ?>
-
-  <!-- DROPDOWN -->
-  <li class="nav-item dropdown">
-
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-      Hi, <?php echo htmlspecialchars($_SESSION['name']); ?> 
-    </a>
-
-    <ul class="dropdown-menu dropdown-menu-end">
-
-
-      <!-- Admin only -->
-      <?php if ($_SESSION['role'] === 'admin'): ?>
-
-        <li class="dropdown-header">Admin Tools</li>
-        <li><a class="dropdown-item" href="add_pet.php">Add Pet</a></li>
-        <li><a class="dropdown-item" href="enquiries.php">View Enquiries</a></li>
-      <?php endif; ?>
-
-      <?php if ($_SESSION['role'] === 'user'): ?>
-
-       
-        <li><a class="dropdown-item" href="favourites.php">Saved Pets</a></li>
-
-      <?php endif; ?>
-
-      <li><hr class="dropdown-divider"></li>
-
-      <!-- Logout -->
-      <li>
-        <a class="dropdown-item text-danger" href="logout.php">
-          Logout
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          Hi, <?php echo htmlspecialchars($_SESSION['name']); ?> 
         </a>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+
+          <?php if ($_SESSION['role'] === 'admin'): ?>
+            <li class="dropdown-header">Admin Tools</li>
+            <li><a class="dropdown-item" href="add_pet.php">Add Pet</a></li>
+            <li><a class="dropdown-item" href="enquiries.php">View Enquiries</a></li>
+          <?php endif; ?>
+
+          <?php if ($_SESSION['role'] === 'user'): ?>
+            <li><a class="dropdown-item" href="favourites.php">Saved Pets</a></li>
+          <?php endif; ?>
+
+          <li><hr class="dropdown-divider"></li>
+
+          <li>
+            <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+          </li>
+
+        </ul>
       </li>
 
-    </ul>
+    <?php else: ?>
 
-  </li>
+      <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
 
-<?php else: ?>
+    <?php endif; ?>
 
-  <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-  <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
+  </ul>
 
-<?php endif; ?>
-
-</ul>
-
-            
-        </ul>
-      </div>
+</div>
     </div>
   </div>
 </nav>
